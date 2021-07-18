@@ -17,7 +17,7 @@ const GameRoom = (props) => {
 			<DrawingArea
 				canvasKey={canvasKey}
 				changeCanvasKey={changeCanvasKey}
-				width={600}
+				width={0.8 * window.innerWidth}
 				height={500}
 			/>
 		</React.Fragment>

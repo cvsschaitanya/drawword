@@ -131,10 +131,13 @@ const DrawingArea = (props) => {
 				width={props.width}
 				height={props.height}
 				onMouseDown={handleMouseDown}
-				onMousemove={handleMouseMove}
-				onMouseup={handleMouseUp}
+				onMouseMove={handleMouseMove}
+				onMouseUp={handleMouseUp}
 				// onMouseLeave={handleMouseLeave}
 				// onMouseEnter={handleMouseEnter}
+				onTouchStart={handleMouseDown}
+				onTouchMove={handleMouseMove}
+				onTouchEnd={handleMouseUp}
 				className="canvas-stage"
 			>
 				<Layer>
