@@ -70,7 +70,7 @@ const DrawingArea = (props) => {
 	const toolbarStyle = {
 		height: 50,
 		width: "100%",
-		backgroundColor: "grey",
+		backgroundColor: "rgb(10, 10, 43)",
 	};
 
 	const areaStyle = {
@@ -85,7 +85,12 @@ const DrawingArea = (props) => {
 		<div style={areaStyle}>
 			<div style={toolbarStyle}>
 				<Button
-					variant=""
+					style={{
+						float: "right",
+						margin: "10px",
+					}}
+					size="sm"
+					variant="warning"
 					onClick={() => {
 						writeLines([]);
 					}}
