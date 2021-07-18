@@ -1,26 +1,26 @@
 import React, { Component } from "react";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import Button from "react-bootstrap/Button";
+import { FormControl, Button } from "react-bootstrap";
 
 import { Stage, Layer, Line } from "react-konva";
 import { useState, useRef, useEffect } from "react";
+import firebase from "../firebase";
 
 const DrawingArea = (props) => {
-	const DatabaseRef = props.DatabaseRef;
 	const [lines, setLines] = useState([]);
 	console.log(lines);
 
 	useEffect(() => {
-		DatabaseRef.on("value", (snapshot) => {
+		firebase.canvasRef(props.canvasKey).on("value", (snapshot) => {
 			// console.log(snapshot);
 			setLines(snapshot.val() || []);
 		});
-	}, [DatabaseRef]);
+	}, [props.canvasKey]);
 
 	const writeLines = (newLines) => {
 		// props.writeLines(newLines);
-		DatabaseRef.set(newLines);
+		firebase.canvasRef(props.canvasKey).set(newLines);
 		setLines(newLines);
 	};
 
@@ -71,6 +71,8 @@ const DrawingArea = (props) => {
 		height: 50,
 		width: "100%",
 		backgroundColor: "rgb(10, 10, 43)",
+		display: "flex",
+		flex: 1,
 	};
 
 	const areaStyle = {
@@ -78,17 +80,44 @@ const DrawingArea = (props) => {
 		height: props.height + 50,
 		border: "1px solid black",
 		margin: "auto",
-		padding: "-20px",
 	};
+
+	useEffect(() => {
+		document.getElementById("canvas-key-box").value = props.canvasKey;
+	});
 
 	return (
 		<div style={areaStyle}>
 			<div style={toolbarStyle}>
 				<Button
-					style={{
-						float: "right",
-						margin: "10px",
+					className="m-2"
+					size="sm"
+					variant="primary"
+					onClick={() => {
+						props.changeCanvasKey(firebase.newCanvasKey());
 					}}
+				>
+					New
+				</Button>
+				<input
+					id="canvas-key-box"
+					className="form-control m-2"
+					placeholder="Canvas Key"
+				/>
+				<Button
+					className="m-2"
+					size="sm"
+					variant="success"
+					onClick={() => {
+						props.changeCanvasKey(
+							document.getElementById("canvas-key-box").value
+						);
+					}}
+				>
+					Load
+				</Button>
+				<Button
+					className="m-2"
 					size="sm"
 					variant="warning"
 					onClick={() => {
